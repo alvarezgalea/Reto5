@@ -6,10 +6,16 @@ package com.example.demo.Servicio;
 
 import com.example.demo.Repositorio.ReservationRepository;
 import java.util.List;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.Modelo.Reservation;
 import java.util.Optional;
+import com.example.demo.Repositorio.CountClient;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 /**
  *
  * @author MIGUEL ANGEL ALVAREZ G.
@@ -72,6 +78,41 @@ public class ReservationService {
             return true;
         }).orElse(false);
         return d;  
+    }
+
+    
+    /*
+        -------- CODIGO RETO 5   ----------------
+    El código es el mismo como en el reto 3 y 4 y solo le agregamos
+     *para el reto 5 la parte de los reportes de Reservation
+     */
+
+    public Status getReservationStatusReport(){
+        List<Reservation> completed = reservationRepository.getReservationByStatus("completed");
+        List<Reservation> cancelled = reservationRepository.getReservationByStatus("cancelled");
+        return new Status(completed.size(),cancelled.size());
+    } 
+    
+    public List<Reservation> informePeriodoTiempoReservas(String datoA, String datoB){
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = new Date();
+        Date b = new Date();
+        
+        try{
+            a = parser.parse(datoA);
+            b = parser.parse(datoB);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+        if(a.before(b)){
+           return reservationRepository.informePeriodoTiempoReservas(a, b);
+        }else{
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<CountClient> getTopClients(){
+        return reservationRepository.getTopClient();
     }
 
 

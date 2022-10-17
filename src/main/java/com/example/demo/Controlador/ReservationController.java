@@ -7,12 +7,13 @@ package com.example.demo.Controlador;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Modelo.Reservation;
-import com.example.demo.Servicio.ReservationService;
+import com.example.demo.Servicio.*;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import com.example.demo.Repositorio.CountClient;
 
 
 /**
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Reservation")
+@CrossOrigin(origins = "*")
 
 public class ReservationController {
         @Autowired
@@ -54,5 +56,28 @@ public class ReservationController {
     public boolean delete(@PathVariable("id") int reservationId){
         return reservationService.deleteReservation(reservationId);
     }
+
+
+    /*
+        -------- CODIGO RETO 5   ----------------
+    El código es el mismo como en el reto 3 y 4 y solo le agregamos
+     *para el reto 5 la parte de los reportes de Reservation
+     */
+
+    @GetMapping("/report-clients")
+    public List<CountClient> getReservationsReportClient(){
+        return reservationService.getTopClients();
+    }
+    
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getReservationsReportDates(@PathVariable("dateOne") String dateOne,@PathVariable("dateTwo") String dateTwo){
+        return reservationService.informePeriodoTiempoReservas(dateOne,dateTwo);
+    }
+    
+     @GetMapping("/report-status")
+    public Status getReservationsStatusReport(){
+        return reservationService.getReservationStatusReport();
+    }
+
 
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/Message")
+@CrossOrigin(origins = "*")
 
 public class MessageController {
       @Autowired

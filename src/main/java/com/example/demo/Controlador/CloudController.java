@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/Cloud")
+@CrossOrigin(origins = "*")
 
 public class CloudController {
       @Autowired
